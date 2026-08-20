@@ -19,7 +19,7 @@ import {
   createApiFactory,
   identityApiRef,
 } from '@backstage/core-plugin-api';
-import { AdoptionInsightsAnalyticsApi } from './AdoptionInsightsAnalyticsApi';
+import { AdoptionInsightsAnalyticsApi } from '../api/AdoptionInsightsAnalyticsApi';
 
 /**
  * API Factory for Adoption Insights Analytics API

@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import plugin from './index';
 
-import { unstable_ClassNameGenerator as ClassNameGenerator } from '@mui/material/className';
+describe('analytics-module-adoption-insights NFS exports', () => {
+  it('should export a valid frontend plugin', () => {
+    expect(plugin).toBeDefined();
+    expect(plugin.$$type).toBe('@backstage/FrontendPlugin');
+  });
 
-ClassNameGenerator.configure(componentName => {
-  return componentName.startsWith('v5-')
-    ? componentName
-    : `v5-${componentName}`;
+  it('should have the correct plugin id', () => {
+    expect(plugin.id).toBe('analytics-module-adoption-insights');
+  });
 });
-
-export * from './plugin';

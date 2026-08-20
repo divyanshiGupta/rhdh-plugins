@@ -13,4 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { adoptionInsightsTranslationsModule as default } from './index';
+
+/**
+ * Raw translation resources for OFS apps and dynamic plugins.
+ * NFS apps should use `adoptionInsightsTranslationsModule` from the package root instead.
+ *
+ * @packageDocumentation
+ */
+export * from './translations';
