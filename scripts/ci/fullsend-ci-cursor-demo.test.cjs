@@ -66,6 +66,27 @@ test('preserves an explicitly configured Cursor binary', () => {
   assert.equal(demo.resolveCursorBin('custom-agent'), 'custom-agent');
 });
 
+test('passes only non-sensitive runtime variables to Cursor', () => {
+  const environment = demo.buildCursorEnv({
+    PATH: '/safe/bin',
+    HOME: '/safe/home',
+    GH_TOKEN: 'should-not-be-passed',
+    GITHUB_TOKEN: 'should-not-be-passed',
+    FULLSEND_GCP_PROJECT_ID: 'should-not-be-passed',
+    AWS_ACCESS_KEY_ID: 'should-not-be-passed',
+    CURSOR_API_KEY: 'should-not-be-passed',
+  });
+  assert.equal(environment.PATH, '/safe/bin');
+  assert.equal(environment.HOME, '/safe/home');
+  assert.equal(environment.GH_TOKEN, undefined);
+  assert.equal(environment.GITHUB_TOKEN, undefined);
+  assert.equal(environment.FULLSEND_GCP_PROJECT_ID, undefined);
+  assert.equal(environment.AWS_ACCESS_KEY_ID, undefined);
+  assert.equal(environment.CURSOR_API_KEY, undefined);
+  assert.equal(environment.GH_PAGER, 'cat');
+  assert.equal(environment.PAGER, 'cat');
+});
+
 test('extracts the first complete JSON object from Cursor text output', () => {
   assert.deepEqual(
     demo.extractJsonObject(
