@@ -65,5 +65,30 @@ node --test scripts/ci/fullsend-ci-*.test.cjs
 bash -n .fullsend/rhdh/scripts/*.sh
 ```
 
+## Local Cursor demo
+
+The production loop uses Fullsend credentials only in GitHub Actions. For a
+local demonstration, use the Cursor CLI adapter instead. It uses `gh` to read
+the PR's completed CI run, failed job logs, and named evidence artifacts; it
+then runs Cursor against a temporary PR checkout with the same triage/fix
+instructions and JSON schemas. It never comments, pushes, or changes the
+working checkout. Add `--repair` to run the local repair phase and the same
+workspace/diff guard used by the production post-script.
+
+```bash
+gh auth status
+cursor-agent login
+yarn ci-agent:cursor-demo \
+  --pr https://github.com/redhat-developer/rhdh-plugins/pull/4471 \
+  --repair \
+  --keep
+```
+
+Use `--run-id <completed-ci-run-id>` when the PR has multiple failed CI runs.
+`cursor-agent -p` is used in read-only print mode for triage; repair uses
+Cursor's explicit `--force` mode only inside the temporary checkout. Cursor's
+headless CLI supports print mode for scripted runs and `--force` for direct
+file changes; authenticate it with `cursor-agent login` first.
+
 When available, also run `actionlint` and resolve both custom harnesses with the
 Fullsend CLI pinned by `.github/workflows/fullsend.yaml`.
